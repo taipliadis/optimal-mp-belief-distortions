@@ -1,2 +1,94 @@
 # optimal-mp-belief-distortions
-Replication Package for "Optimal Monetary Policy Response to Belief Distortions: Model-Free Evidence"
+Replication Package for "Optimal Monetary Policy Response to Belief Distortions: Model-Free Evidence" - Jonathan J. Adams and Symeon Taipliadis (2025)
+
+Run "START_HERE.R"
+
+Important information:
+- We run all baseline results with 10,000 bootstrap iterations
+  and all robustness results with 1,000 iterations.
+- In this replication package we set 100 bootstrap iterations so the user can get the results fast. 
+  The user can change the number of iterations at "PARAMETER_SETTINGS.R": (line 24) slct_bootruns <- 100
+- In the Baseline VAR model the data covers the period: May 1978 - May 2023. (*)	
+- In the SVAR model, the data covers the period: January 1978 - May 2024. (**)
+	(*,**) Notes:  	1. The data in Baseline VAR starts 4 months later than the SVAR because we have used 4 lags in the (OLS) Rational Expectations regression.
+			            2. The data in Baseline VAR ends 12 months before the SVAR because the estimation of Belief Distortions requires identification of ex-post Rational Expectations (which requires ex-post 1-year-ahead CPI).
+- Monetary Policy shocks cover the period: February 1988 - December 2023.
+  
+**R-SCRIPTS:**
+- START_HERE.R:			Start with/Run this R script (it calls all R scripts in order).
+- LOAD_LIBRARIES.R:		Load all necessary libraries.
+- PARAMETER_SETTINGS.R:		This R script contains all parameters ...
+				incl. number of lags, number of horizons, significance level, etc.
+				it adjusts the parameters in the loop for robustness tests.
+- ORTHOG_MPS.R:			Orthogonalize monetary policy instruments to macro variables.
+
+- RATIONAL_EXPECTATIONS.R:	Runs the OLS rational expectations regression ...
+				to estimate belief distortion shocks for the reduced-form methodology.
+- RUN_FUNCTIONS.R:		This R script contains all functions used in the VAR_MODEL.R.
+- VAR_MODEL.R:			This R script contains all the methodology followed to ... 
+				(a) run the VAR model, (b) produce impulse response functions (IRF),
+				(c) run counterfactuals, and (d) run bootstrap iterations.
+
+- BD_PLOTS.R:			Code to produce plots of IRF to Belief Distortion shocks (reduced-form methodology).
+- BD_PLOTS_STRUCTURAL.R:	Code to produce plots of IRF to Belief Distortion shocks (structural methodology).
+- MP_PLOTS.R:			Code to produce plots of IRF to Monetary Policy shocks (reduced-form methodology).
+- MP_PLOTS_STRUCTURAL.R:	Code to produce plots of IRF to Monetary Policy shocks (structural methodology).
+- COUNT_PLOTS.R: 		Code to produce plots of IRF to Counterfactual policies (reduced-form methodology).
+- COUNT_PLOTS_STRUCTURAL.R: 	Code to produce plots of IRF to Counterfactual policies (structural methodology).
+
+- TABLE_1.R:			This R script prints the results of Table 1 in latex form.
+- TABLE_2.R:			This R script prints the results of Table 2 in latex form.
+
+**PLOTS:**
+- The replication will save all plots at folder PLOTS. 
+
+**DATA:**
+- baseline_data.RData: contains all macroeconomic data and monetary policy instrument data from Swanson (2023)
+			we use this data to run our baseline results.
+- aruoba_data.RData: contains the monetary policy instrument data from Aruoba and Drechsel (2024)
+			we use this data on a robustness test.
+
+**ENVIRONMENT:**
+
+- y_data: 	A data.table with all macroeconomic variables entering the VAR model.
+- z_data: 	A data.table with all monetary policy instruments.
+- shock_series: Same as z_data but we drop monetary policy series after February 2020 (We follow Swanson (2023) to establish a reference of the impact of monetary policy shocks on macro variables).
+- data_set: 	A merged data.table of y_data and z_data.
+
+- ts_var:	Data in time-series format (including lagged variables).
+- formula_reg:	Regression formulas for OLS/VAR regressions.
+- y_date:	A (data.table) column of all time periods of macro data.
+- z_date:	A (data.table) column of all time periods of monetary policy instrument data.
+
+- B_mat: 	A list of matrices with the Bj coefficients from the VAR model 
+		example: B_mat[[2]] corresponds to lag 2 (see equations (1) and (2) of the paper).
+- C_mat:	A matrix with intercepts of the VAR model.
+- w_mat:	A matrix with the reduced-form residuals of the VAR model.
+- y_hat_mat:	A matrix with the fitted values of the VAR model.
+- Sigma_mat:	A variance-covariance matrix of the reduced-form residuals of the VAR model.
+
+- phi_function:	A list of IRF matrices
+		example: phi_function[[100]] corresponds to IRF 100 periods ahead of time t.
+- A_mat:	The impact matrix. In the "reduced-form" methodology, A_mat is an NxN identity matrix.
+- omega_mat:	Impact matrix of monetary policy shocks on reduced-form residuals 
+		(see equation (10) in the Appendix).
+- irf_mat:	A table with impulse responses of belief distortion shocks 
+		(scaled to increase belief distortions by 1p.p. on impact).
+- irf_boot:	A list of all irf_mat generated by the bootstrap iterations.
+
+- irf_mat_mp:	A list of tables with impulse responses of monetary policy shocks
+		(all scaled to increase 2Y treasuries by 1p.p. on impact)
+- irf_mp_boot:	A list of all irf_mat_mp generated by the bootstrap iterations.
+
+- phi_r:	A vector of unemployment and inflation impulse responses to a belief distortion shock (See Appendix).
+- PHI_R_BOOT:	A list of all phi_r generated by the bootstrap iterations.
+
+- phi_m:	A matrix of unemployment and inflation impulse responses to monetary policy shocks (See Appendix).
+- PHI_M_BOOT:	A list of all phi_m generated by the bootstrap iterations.
+
+- psi_coef_mat:	A matrix of optimal policy response (psi) coefficients (see 2.3 Calculating Optimal Policy).
+- psi_boot:	A list of all psi_coef_mat generated by the bootstrap iterations.
+- r_sq_mat:	A matrix of R-squared estimates from optimal policy regressions.
+
+- SAVE_RESULTS:	A list where we save all impulse responses and optimal policy responses.
+- SAVE_PLOTS:	A list where we save all figures.
