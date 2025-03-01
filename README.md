@@ -8,26 +8,21 @@ Important information:
   and all robustness results with 1,000 iterations.
 - In this replication package we set 100 bootstrap iterations so the user can get the results fast. 
   The user can change the number of iterations at "PARAMETER_SETTINGS.R": (line 24) slct_bootruns <- 100
-- In the Baseline VAR model the data covers the period: May 1978 - May 2023. (*)	
-- In the SVAR model, the data covers the period: January 1978 - May 2024. (**)
-	(*,**) Notes:  	1. The data in Baseline VAR starts 4 months later than the SVAR because we have used 4 lags in the (OLS) Rational Expectations regression.
-			            2. The data in Baseline VAR ends 12 months before the SVAR because the estimation of Belief Distortions requires identification of ex-post Rational Expectations (which requires ex-post 1-year-ahead CPI).
+- In the Baseline VAR model the data covers the period: May 1978 - May 2023. (\*)	
+- In the SVAR model, the data covers the period: January 1978 - May 2024. (\*\*)
+- Notes (\*,\*\*):  	1. The data in Baseline VAR starts 4 months later than the SVAR because we have used 4 lags in the (OLS) Rational Expectations regression.
+			2. The data in Baseline VAR ends 12 months before the SVAR because the estimation of Belief Distortions requires identification of ex-post Rational Expectations (which requires ex-post 1-year-ahead CPI).
 - Monetary Policy shocks cover the period: February 1988 - December 2023.
   
 **R-SCRIPTS:**
 - START_HERE.R:			Start with/Run this R script (it calls all R scripts in order).
 - LOAD_LIBRARIES.R:		Load all necessary libraries.
-- PARAMETER_SETTINGS.R:		This R script contains all parameters ...
-				incl. number of lags, number of horizons, significance level, etc.
-				it adjusts the parameters in the loop for robustness tests.
+- PARAMETER_SETTINGS.R:		This R script contains all parameters (incl. number of lags, number of horizons, significance level, etc); it adjusts the parameters in the loop for robustness tests.
 - ORTHOG_MPS.R:			Orthogonalize monetary policy instruments to macro variables.
 
-- RATIONAL_EXPECTATIONS.R:	Runs the OLS rational expectations regression ...
-				to estimate belief distortion shocks for the reduced-form methodology.
+- RATIONAL_EXPECTATIONS.R:	Runs the OLS rational expectations regression to estimate belief distortion shocks for the reduced-form methodology.
 - RUN_FUNCTIONS.R:		This R script contains all functions used in the VAR_MODEL.R.
-- VAR_MODEL.R:			This R script contains all the methodology followed to ... 
-				(a) run the VAR model, (b) produce impulse response functions (IRF),
-				(c) run counterfactuals, and (d) run bootstrap iterations.
+- VAR_MODEL.R:			This R script contains all the methodology followed to (a) run the VAR model, (b) produce impulse response functions (IRF), (c) run counterfactuals, and (d) run bootstrap iterations.
 
 - BD_PLOTS.R:			Code to produce plots of IRF to Belief Distortion shocks (reduced-form methodology).
 - BD_PLOTS_STRUCTURAL.R:	Code to produce plots of IRF to Belief Distortion shocks (structural methodology).
@@ -43,16 +38,14 @@ Important information:
 - The replication will save all plots at folder PLOTS. 
 
 **DATA:**
-- baseline_data.RData: contains all macroeconomic data and monetary policy instrument data from Swanson (2023)
-			we use this data to run our baseline results.
-- aruoba_data.RData: contains the monetary policy instrument data from Aruoba and Drechsel (2024)
-			we use this data on a robustness test.
+- baseline_data.RData: contains all macroeconomic data and monetary policy instrument data from Swanson (2023); we use this data to run our baseline results.
+- aruoba_data.RData: contains the monetary policy instrument data from Aruoba and Drechsel (2024); we use this data on a robustness test.
 
 **ENVIRONMENT:**
 
 - y_data: 	A data.table with all macroeconomic variables entering the VAR model.
 - z_data: 	A data.table with all monetary policy instruments.
-- shock_series: Same as z_data but we drop monetary policy series after February 2020 (We follow Swanson (2023) to establish a reference of the impact of monetary policy shocks on macro variables).
+- shock_series: Same as z_data but we drop monetary policy series after February 2020 (We follow Swanson (2023) to establish a reference on the impact of monetary policy shocks to macro variables).
 - data_set: 	A merged data.table of y_data and z_data.
 
 - ts_var:	Data in time-series format (including lagged variables).
